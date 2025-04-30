@@ -46,6 +46,7 @@ for model in models:
     generate_label_studio_predictions(
         frames_dir=frames_dir, 
         output_file=output_dir+"/label_studio_predictions.json",
+        text_prompt="person, car, bicycle, motorcycle, truck, helicopter, plane, snowboard, skateboard",
         model_name=model, #"yolov8n.pt",
         confidence_threshold=0.3,
         include_masks=False
