@@ -917,11 +917,15 @@ def perform_panoptic_segmentation(frames_dir, output_dir, model_name="facebook/m
             rgb = hsv_to_rgb((hue, saturation, value))
             colors.append((int(rgb[0] * 255), int(rgb[1] * 255), int(rgb[2] * 255)))
         return colors
+
+    AvgRunTime = 0
+    ImageProcessed = 0
     
     for img_path in image_files:
+        startTime = time.time()
         base_filename = os.path.basename(img_path)
         base_name = os.path.splitext(base_filename)[0]
-        print(f"Processing {base_filename}...")
+        print(f"Processing {base_filename}...", end="")
         
         # Load image
         image = Image.open(img_path)
@@ -1088,9 +1092,14 @@ def perform_panoptic_segmentation(frames_dir, output_dir, model_name="facebook/m
         
         with open(os.path.join(output_dir, f"{base_name}_segmentation.json"), 'w') as f:
             json.dump(seg_meta, f, indent=4)
-        
-        print(f"Saved segmentation results for {base_filename}")
     
+        timeDelta = time.time() - startTime
+        ImageProcessed += 1
+        AvgRunTime += timeDelta
+        AvgRunTime /= ImageProcessed
+        print(f"Done. Time taken: {timeDelta:.2f} seconds, Avg: {AvgRunTime:.2f} seconds, Estimated time left: {(len(image_files) - ImageProcessed) * AvgRunTime:.2f} seconds")
+        print(f"Saved segmentation results for {base_filename}")
+
     print(f"Segmentation complete. Processed {len(image_files)} images.")
 
 
@@ -1129,10 +1138,14 @@ def perform_panoptic_segmentation2(frames_dir, output_dir, model_name="facebook/
     image_files = sorted(glob.glob(os.path.join(frames_dir, "*.jpg")))
     print(f"Found {len(image_files)} images to process")
     
+    AvgRunTime = 0
+    ImageProcessed = 0
+    
     for img_path in image_files:
+        startTime = time.time()
         base_filename = os.path.basename(img_path)
         base_name = os.path.splitext(base_filename)[0]
-        print(f"Processing {base_filename}...")
+        print(f"Processing {base_filename}...", end="")
         
         # Load image and metadata
         image = Image.open(img_path)
@@ -1251,9 +1264,14 @@ def perform_panoptic_segmentation2(frames_dir, output_dir, model_name="facebook/
         
         with open(os.path.join(output_dir, f"{base_name}_segmentation.json"), 'w') as f:
             json.dump(seg_meta, f, indent=4)
-        
-        print(f"Saved segmentation results for {base_filename}")
     
+        timeDelta = time.time() - startTime
+        ImageProcessed += 1
+        AvgRunTime += timeDelta
+        AvgRunTime /= ImageProcessed
+        print(f"Done. Time taken: {timeDelta:.2f} seconds, Avg: {AvgRunTime:.2f} seconds, Estimated time left: {(len(image_files) - ImageProcessed) * AvgRunTime:.2f} seconds")
+        print(f"Saved segmentation results for {base_filename}")
+        
     print(f"Segmentation complete. Processed {len(image_files)} images.")
 
 from torchvision.utils import draw_bounding_boxes
@@ -1355,12 +1373,15 @@ def perform_box_segmentation(frames_dir, output_dir, model_name, text_prompt="pe
     # Get all image files
     image_files = sorted(glob.glob(os.path.join(frames_dir, "*.jpg")))
     print(f"Found {len(image_files)} images to process")
+    AvgRunTime = 0
+    ImageProcessed = 0
     
     # Process each image
     for img_path in image_files:
+        startTime = time.time()
         base_filename = os.path.basename(img_path)
         base_name = os.path.splitext(base_filename)[0]
-        print(f"Processing {base_filename}...")
+        print(f"Processing {base_filename}...", end="")
         
         # Load image and metadata
         image = Image.open(img_path).convert("RGB")
@@ -1460,9 +1481,14 @@ def perform_box_segmentation(frames_dir, output_dir, model_name, text_prompt="pe
         
         with open(os.path.join(output_dir, f"{base_name}_segmentation.json"), 'w') as f:
             json.dump(seg_meta, f, indent=4)
-        
+
+        timeDelta = time.time() - startTime
+        ImageProcessed += 1
+        AvgRunTime += timeDelta
+        AvgRunTime /= ImageProcessed
+        print(f"Done. Time taken: {timeDelta:.2f} seconds, Avg: {AvgRunTime:.2f} seconds, Estimated time left: {(len(image_files) - ImageProcessed) * AvgRunTime:.2f} seconds")
         print(f"Saved segmentation results for {base_filename}")
-    
+
     print(f"Segmentation complete. Processed {len(image_files)} images.")
 
 def generate_label_studio_predictions(frames_dir, output_file, model_name, text_prompt="person, car, bicycle, motorcycle, truck, traffic light", 
@@ -1504,11 +1530,14 @@ def generate_label_studio_predictions(frames_dir, output_file, model_name, text_
     
     # Prepare Label Studio predictions
     predictions = []
+    AvgRunTime = 0
+    ImageProcessed = 0
     
     # Process each image
     for img_path in image_files:
+        startTime = time.time()
         base_filename = os.path.basename(img_path)
-        print(f"Processing {base_filename}...")
+        print(f"Processing {base_filename}...", end="")
         
         # Load image
         image = Image.open(img_path).convert("RGB")
@@ -1742,6 +1771,11 @@ def generate_label_studio_predictions(frames_dir, output_file, model_name, text_
             task["predictions"].append(prediction)
         
         predictions.append(task)
+        timeDelta = time.time() - startTime
+        ImageProcessed += 1
+        AvgRunTime += timeDelta
+        AvgRunTime /= ImageProcessed
+        print(f"Done. Time taken: {timeDelta:.2f} seconds, Avg: {AvgRunTime:.2f} seconds, Estimated time left: {(len(image_files) - ImageProcessed) * AvgRunTime:.2f} seconds")
     
     # Save predictions to file
     with open(output_file, 'w') as f:
