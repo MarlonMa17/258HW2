@@ -1,9 +1,27 @@
-import subprocess
-import time
+import time, os
 import json
+from extractframefromvideo import extract_key_frames
+from extractframefromvideo import generate_label_studio_predictions
+from extractframefromvideo import perform_panoptic_segmentation2
+from extractframefromvideo import perform_box_segmentation
 
 # Define the video path and model options
 video_path = "videoplayback.mp4"
+
+frames_dir = "output/frames"
+
+# Check if the frames directory exists, if yes, delete it
+if os.path.exists(frames_dir):
+    import shutil
+    shutil.rmtree(frames_dir)
+
+extract_key_frames(
+            video_path, 
+            frames_dir, 
+            # target_size=(800, 800),
+            # extraction_method="both"
+        )
+
 models = [
     "yolov8n.pt",
     "shi-labs/oneformer_coco_swin_large",
@@ -17,34 +35,30 @@ runtimes = {}
 # Iterate through each model and run the script
 for model in models:
     print(f"Running script with model: {model}")
-    output_dir = f"output/{model.replace('/', '_')}"
-
+    
+    output_dir = f"output/predictions/{model.replace('/', '_').replace('.', '_')}"
+    # Create the output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
     # Measure runtime for extractframefromvideo.py
     start_time = time.time()
-    command = [
-        "python", "extractframefromvideo.py",
-        "--video_path", video_path,
-        "--model_name_path", model,
-        "--output_dir", output_dir
-    ]
-    subprocess.run(command)
+    
+    generate_label_studio_predictions(
+        frames_dir=frames_dir, 
+        output_file=output_dir+"/label_studio_predictions.json",
+        model_name=model, #"yolov8n.pt",
+        confidence_threshold=0.3,
+        include_masks=False
+    )
+    
+    # perform_box_segmentation(frames_dir, output_dir, \
+    #             model_name=model, text_prompt="a person. a car. a bicycle. a motorcycle. a truck. traffic light", 
+    #             box_threshold=0.35, text_threshold=0.25)
+    
     end_time = time.time()
     runtimes[model] = {
         "extract_frame_runtime": end_time - start_time
     }
-
-    # Measure runtime for add_labels_to_frames.py
-    print(f"Adding labels for model: {model}")
-    start_time = time.time()
-    label_command = [
-        "python", "add_labels_to_frames.py",
-        "--json_path", f"{output_dir}/labelstudio_predictions.json",
-        "--frames_dir", output_dir,
-        "--output_dir", f"{output_dir}/labeled_frames"
-    ]
-    subprocess.run(label_command)
-    end_time = time.time()
-    runtimes[model]["add_labels_runtime"] = end_time - start_time
 
 # Save runtimes to a JSON file
 with open("runtimes.json", "w") as f:
