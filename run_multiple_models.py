@@ -29,6 +29,8 @@ models = [
     "facebook/mask2former-swin-large-coco-panoptic"
 ]
 
+text_prompt="person, car, bicycle, motorcycle, truck, helicopter, plane, snowboard, skateboard",
+
 # Define a dictionary to store runtimes
 runtimes = {}
 
@@ -43,22 +45,22 @@ for model in models:
     # Measure runtime for extractframefromvideo.py
     start_time = time.time()
     
-    generate_label_studio_predictions(
-        frames_dir=frames_dir, 
-        output_file=output_dir+"/label_studio_predictions.json",
-        text_prompt="person, car, bicycle, motorcycle, truck, helicopter, plane, snowboard, skateboard",
-        model_name=model, #"yolov8n.pt",
-        confidence_threshold=0.3,
-        include_masks=False
-    )
+    # generate_label_studio_predictions(
+    #     frames_dir=frames_dir, 
+    #     output_file=output_dir+"/label_studio_predictions.json",
+    #     text_prompt=text_prompt,
+    #     model_name=model, #"yolov8n.pt",
+    #     confidence_threshold=0.3,
+    #     include_masks=False
+    # )
     
-    # perform_box_segmentation(frames_dir, output_dir, \
-    #             model_name=model, text_prompt="a person. a car. a bicycle. a motorcycle. a truck. traffic light", 
-    #             box_threshold=0.35, text_threshold=0.25)
+    perform_box_segmentation(frames_dir, output_dir, \
+                model_name=model, text_prompt=text_prompt, 
+                box_threshold=0.35, text_threshold=0.25)
     
     end_time = time.time()
     runtimes[model] = {
-        "extract_frame_runtime": end_time - start_time
+        "perform_box_segmentation_runtime": end_time - start_time
     }
 
 # Save runtimes to a JSON file
