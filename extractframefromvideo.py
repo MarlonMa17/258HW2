@@ -1440,12 +1440,12 @@ def perform_box_segmentation(frames_dir, output_dir, model_name, text_prompt="pe
             labels=labels,
             scores=scores
         )
-        result_image.save("output/segmentation_result.png")
+        result_image.save(os.path.join(output_dir, f"{base_name}_segmentation.png"))
 
         # Save segmentation metadata
         seg_meta = {
             "original_frame": base_filename,
-            "segments": segmentation_masks,
+            #"segments": segmentation_masks,
             #"frame_metadata": frame_meta,
             "model": "GroundingDINO + SAM",
             "text_prompt": text_prompt,
@@ -1647,7 +1647,7 @@ def generate_label_studio_predictions(frames_dir, output_file, model_name, text_
                 input_ids=grounding_inputs.input_ids,
                 target_sizes=target_sizes,
                 text_threshold=confidence_threshold,
-                threshold=confidence_threshold
+                # threshold=confidence_threshold
             )[0]
             
             # Create prediction entry
