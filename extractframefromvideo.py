@@ -1094,6 +1094,7 @@ def perform_panoptic_segmentation(frames_dir, output_dir, model_name="facebook/m
             json.dump(seg_meta, f, indent=4)
     
         timeDelta = time.time() - startTime
+        AvgRunTime *= ImageProcessed
         ImageProcessed += 1
         AvgRunTime += timeDelta
         AvgRunTime /= ImageProcessed
@@ -1266,6 +1267,7 @@ def perform_panoptic_segmentation2(frames_dir, output_dir, model_name="facebook/
             json.dump(seg_meta, f, indent=4)
     
         timeDelta = time.time() - startTime
+        AvgRunTime *= ImageProcessed
         ImageProcessed += 1
         AvgRunTime += timeDelta
         AvgRunTime /= ImageProcessed
@@ -1429,7 +1431,7 @@ def perform_box_segmentation(frames_dir, output_dir, model_name, text_prompt="pe
                 input_ids=grounding_inputs.input_ids,
                 target_sizes=target_sizes,
                 text_threshold=0.4,
-                threshold=0.3  # Adjust this threshold as needed
+                # threshold=0.3  # Adjust this threshold as needed
             )[0]
             print(results.keys()) #['scores', 'boxes', 'text_labels', 'labels']
             
@@ -1483,6 +1485,7 @@ def perform_box_segmentation(frames_dir, output_dir, model_name, text_prompt="pe
             json.dump(seg_meta, f, indent=4)
 
         timeDelta = time.time() - startTime
+        AvgRunTime *= ImageProcessed
         ImageProcessed += 1
         AvgRunTime += timeDelta
         AvgRunTime /= ImageProcessed
@@ -1772,6 +1775,7 @@ def generate_label_studio_predictions(frames_dir, output_file, model_name, text_
         
         predictions.append(task)
         timeDelta = time.time() - startTime
+        AvgRunTime *= ImageProcessed
         ImageProcessed += 1
         AvgRunTime += timeDelta
         AvgRunTime /= ImageProcessed
