@@ -693,7 +693,9 @@ def extract_key_frames(video_path, output_dir, target_size=(640, 480), extractio
         
         plate_processor = AutoImageProcessor.from_pretrained("microsoft/table-transformer-detection")
         plate_model = AutoModelForObjectDetection.from_pretrained("microsoft/table-transformer-detection").to(device)
-        
+    
+    imageIndex = 0
+    
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -749,9 +751,11 @@ def extract_key_frames(video_path, output_dir, target_size=(640, 480), extractio
             new_width, new_height = pil_img.size
             
             # Save the frame
-            filename = f"frame_{timestamp.replace(':', '-')}_{reason}.jpg"
+            filename = f"frame_{timestamp.replace(':', '-')}_{imageIndex}_{reason}.jpg"
             output_path = os.path.join(output_dir, filename)
             pil_img.save(output_path, quality=95)
+            
+            imageIndex += 1
             
             # Save frame metadata
             frame_meta = {
