@@ -1,0 +1,14 @@
+{
+    "yolov8n.pt": {
+        "extract_frame_runtime": 2.4538841247558594
+    },
+    "shi-labs/oneformer_coco_swin_large": {
+        "extract_frame_runtime": 367.5789530277252
+    },
+    "facebook/mask2former-swin-large-cityscapes-panoptic": {
+        "extract_frame_runtime": 375.7338137626648
+    },
+    "facebook/mask2former-swin-large-coco-panoptic": {
+        "extract_frame_runtime": 388.11428213119507
+    }
+}
