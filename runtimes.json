@@ -1,14 +1,14 @@
 {
-    "yolov8n.pt": {
-        "perform_box_segmentation_runtime": 13.916082859039307
+    "yolov8x.pt": {
+        "perform_box_segmentation_runtime": 38.25270390510559
+    },
+    "yolo11n.pt": {
+        "perform_box_segmentation_runtime": 21.578047275543213
     },
     "shi-labs/oneformer_coco_swin_large": {
-        "perform_box_segmentation_runtime": 39.310455083847046
-    },
-    "facebook/mask2former-swin-large-cityscapes-panoptic": {
-        "perform_box_segmentation_runtime": 44.925957918167114
+        "perform_box_segmentation_runtime": 45.15096187591553
     },
     "facebook/mask2former-swin-large-coco-panoptic": {
-        "perform_box_segmentation_runtime": 45.535892486572266
+        "perform_box_segmentation_runtime": 38.34142351150513
     }
 }
