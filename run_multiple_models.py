@@ -23,10 +23,10 @@ extract_key_frames(
         )
 
 models = [
-    "yolov8n.pt",
+    "yolov8x.pt",
+    "yolo11n.pt",
     "shi-labs/oneformer_coco_swin_large",
-    "facebook/mask2former-swin-large-cityscapes-panoptic",
-    "facebook/mask2former-swin-large-coco-panoptic"
+    "facebook/mask2former-swin-large-coco-panoptic",
 ]
 
 text_prompt="person, car, bicycle, motorcycle, truck, helicopter, plane, snowboard, skateboard",
@@ -44,15 +44,6 @@ for model in models:
     
     # Measure runtime for extractframefromvideo.py
     start_time = time.time()
-    
-    # generate_label_studio_predictions(
-    #     frames_dir=frames_dir, 
-    #     output_file=output_dir+"/label_studio_predictions.json",
-    #     text_prompt=text_prompt,
-    #     model_name=model, #"yolov8n.pt",
-    #     confidence_threshold=0.3,
-    #     include_masks=False
-    # )
     
     perform_box_segmentation(frames_dir, output_dir, \
                 model_name=model, text_prompt=text_prompt, 
