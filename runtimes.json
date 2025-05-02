@@ -1,0 +1,14 @@
+{
+    "yolov8n.pt": {
+        "perform_box_segmentation_runtime": 218.417706489563
+    },
+    "shi-labs/oneformer_coco_swin_large": {
+        "perform_box_segmentation_runtime": 728.1101851463318
+    },
+    "facebook/mask2former-swin-large-cityscapes-panoptic": {
+        "perform_box_segmentation_runtime": 737.4945781230927
+    },
+    "facebook/mask2former-swin-large-coco-panoptic": {
+        "perform_box_segmentation_runtime": 765.7053141593933
+    }
+}
