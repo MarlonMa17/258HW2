@@ -54,6 +54,10 @@ for model in models:
     
     # remove duplicates from the list
     for image_name, labels in predictions_dict.items():
+        # convert airplane to plane
+        if "airplane" in labels:
+            labels.remove("airplane")
+            labels.append("plane")
         predictions_dict[image_name] = list(set(labels))
     
     # dump predictions_dict to a json file

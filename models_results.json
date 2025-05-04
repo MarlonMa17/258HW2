@@ -1,15 +1,15 @@
 {
     "yolov8x": {
-        "accuracy": 80.88235294117648,
-        "precision": 91.66666666666666,
+        "accuracy": 82.35294117647058,
+        "precision": 93.33333333333333,
         "runtimes": {
             "perform_box_segmentation_runtime": 25.21796226501465
         },
         "model_file_size_MB": 130.54913711547852
     },
     "yolo11n": {
-        "accuracy": 39.705882352941174,
-        "precision": 45.0,
+        "accuracy": 41.17647058823529,
+        "precision": 46.666666666666664,
         "runtimes": {
             "perform_box_segmentation_runtime": 13.481357336044312
         },
@@ -24,16 +24,16 @@
         "model_file_size_MB": 933
     },
     "yolov8x_trt": {
-        "accuracy": 58.82352941176471,
-        "precision": 66.66666666666666,
+        "accuracy": 60.29411764705882,
+        "precision": 68.33333333333333,
         "runtimes": {
             "perform_box_segmentation_runtime": 18.77293372154236
         },
         "model_file_size_MB": 71.00894355773926
     },
     "yolo11n_trt": {
-        "accuracy": 33.82352941176471,
-        "precision": 38.333333333333336,
+        "accuracy": 35.294117647058826,
+        "precision": 40.0,
         "runtimes": {
             "perform_box_segmentation_runtime": 13.439018726348877
         },
