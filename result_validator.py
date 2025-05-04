@@ -78,11 +78,70 @@ for model in models:
     
     print(f"Model: {model}, Accuracy: {accuracy:.2f}%, Precision: {precision:.2f}%")
     
-    models_results[model] = {
+    model_file_size = 933 # IDEA-Research/grounding-dino-base is 933 MB
+    if os.path.exists(model):
+        model_file_size = os.path.getsize(model) / (1024 * 1024)  # Convert to MB
+    
+    if "yolo" in model:
+        model_reduce = model.replace(".pt", "").replace(".engine", "_trt")
+    else:
+        model_reduce = model.split("/")[-1]
+    
+    models_results[model_reduce] = {
         "accuracy": accuracy,
         "precision": precision,
-        "runtimes": runtimes[model]
+        "runtimes": runtimes[model],
+        "model_file_size_MB": model_file_size,
     }
+
+# Draw a bar chart for the accuracy and precision of each model
+import matplotlib.pyplot as plt
+import numpy as np
+
+bar_width = 0.4
+indices = np.arange(len(models_results))
+
+plt.figure(figsize=(10, 5))
+plt.barh(indices - bar_width / 2, [result["accuracy"] for result in models_results.values()], 
+         height=bar_width, color='blue', label='Accuracy')
+plt.barh(indices + bar_width / 2, [result["precision"] for result in models_results.values()], 
+         height=bar_width, color='orange', label='Precision')
+
+plt.yticks(indices, list(models_results.keys()))
+plt.xlabel('Percentage')
+plt.title('Model Accuracy and Precision')
+plt.legend()
+plt.tight_layout()
+plt.savefig("model_accuracy_precision.png")
+# plt.show()
+
+# Draw runtime bar chart
+plt.figure(figsize=(10, 5))
+plt.barh(indices, [result["runtimes"]["perform_box_segmentation_runtime"] for result in models_results.values()], 
+         height=bar_width, color='green', label='Runtime (s)')
+plt.yticks(indices, list(models_results.keys()))
+plt.xlabel('Runtime (s)')
+plt.title('Model Runtime')
+plt.legend()
+plt.tight_layout()
+plt.savefig("model_runtime.png")
+
+# Draw mode size vs accuracy point chart with poiunt label
+plt.figure(figsize=(10, 5))
+plt.scatter([result["model_file_size_MB"] for result in models_results.values()], 
+            [result["accuracy"] for result in models_results.values()], color='red')
+plt.xticks([result["model_file_size_MB"] for result in models_results.values()], 
+           list(models_results.keys()), rotation=45)
+for i, result in enumerate(models_results.values()):
+    plt.annotate(f"{result['accuracy']:.2f}%", 
+                 (result["model_file_size_MB"], result["accuracy"]), 
+                 textcoords="offset points", xytext=(0, 10), ha='center')
+plt.xlabel('Model Size (MB)')
+plt.ylabel('Accuracy (%)')
+plt.title('Model Size vs Accuracy')
+plt.grid()
+plt.tight_layout()
+plt.savefig("model_size_vs_accuracy.png")
     
 # Save the results to a JSON file
 with open("models_results.json", "w") as f:

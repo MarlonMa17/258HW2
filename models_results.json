@@ -1,37 +1,42 @@
 {
-    "yolov8x.pt": {
+    "yolov8x": {
         "accuracy": 80.88235294117648,
         "precision": 91.66666666666666,
         "runtimes": {
             "perform_box_segmentation_runtime": 25.21796226501465
-        }
+        },
+        "model_file_size_MB": 130.54913711547852
     },
-    "yolo11n.pt": {
+    "yolo11n": {
         "accuracy": 39.705882352941174,
         "precision": 45.0,
         "runtimes": {
             "perform_box_segmentation_runtime": 13.481357336044312
-        }
+        },
+        "model_file_size_MB": 5.353702545166016
     },
-    "IDEA-Research/grounding-dino-base": {
+    "grounding-dino-base": {
         "accuracy": 52.94117647058824,
         "precision": 60.0,
         "runtimes": {
             "perform_box_segmentation_runtime": 36.74191427230835
-        }
+        },
+        "model_file_size_MB": 933
     },
-    "yolov8x.engine": {
+    "yolov8x_trt": {
         "accuracy": 58.82352941176471,
         "precision": 66.66666666666666,
         "runtimes": {
             "perform_box_segmentation_runtime": 18.77293372154236
-        }
+        },
+        "model_file_size_MB": 71.00894355773926
     },
-    "yolo11n.engine": {
+    "yolo11n_trt": {
         "accuracy": 33.82352941176471,
         "precision": 38.333333333333336,
         "runtimes": {
             "perform_box_segmentation_runtime": 13.439018726348877
-        }
+        },
+        "model_file_size_MB": 8.329536437988281
     }
 }
