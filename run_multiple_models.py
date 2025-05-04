@@ -1,9 +1,11 @@
 import time, os
 import json
-from extractframefromvideo import extract_key_frames
-from extractframefromvideo import generate_label_studio_predictions
-from extractframefromvideo import perform_panoptic_segmentation2
-from extractframefromvideo import perform_box_segmentation
+from extractframefromvideo import extract_key_frames, generate_label_studio_predictions
+
+from ultralytics import YOLO
+from transformers import AutoModelForObjectDetection, AutoProcessor
+from transformers.onnx import export
+from pathlib import Path
 
 # Define the video path and model options
 video_path = "videoplayback.mp4"
@@ -25,9 +27,19 @@ extract_key_frames(
 models = [
     "yolov8x.pt",
     "yolo11n.pt",
-    "shi-labs/oneformer_coco_swin_large",
-    "facebook/mask2former-swin-large-coco-panoptic",
+    "IDEA-Research/grounding-dino-base",
 ]
+
+# Convert YOLO models to TensorRT format
+
+optimized_Model = []
+
+for model in models:
+    if "yolo" in model:
+        optimized_Model.append(f"{model.replace('.pt', '.engine')}")
+        
+for model in optimized_Model:
+    models.append(model)
 
 text_prompt="person, car, bicycle, motorcycle, truck, helicopter, plane, snowboard, skateboard",
 
@@ -42,12 +54,19 @@ for model in models:
     # Create the output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     
+    output_dir += "/label_studio_predictions.json"
+    
     # Measure runtime for extractframefromvideo.py
     start_time = time.time()
     
-    perform_box_segmentation(frames_dir, output_dir, \
-                model_name=model, text_prompt=text_prompt, 
-                box_threshold=0.35, text_threshold=0.25)
+    generate_label_studio_predictions(
+        frames_dir=frames_dir, 
+        output_file=output_dir, #"output/label_studio_predictions.json",
+        model_name=model, #"yolov8n.pt",
+        text_prompt=text_prompt,
+        confidence_threshold=0.3,
+        include_masks=True
+    )
     
     end_time = time.time()
     runtimes[model] = {
