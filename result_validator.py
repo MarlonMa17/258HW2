@@ -126,23 +126,23 @@ plt.legend()
 plt.tight_layout()
 plt.savefig("model_runtime.png")
 
-# Draw mode size vs accuracy point chart with poiunt label
+# Draw mode size vs accuracy point chart with point label in different color
 plt.figure(figsize=(10, 5))
 plt.scatter([result["model_file_size_MB"] for result in models_results.values()], 
-            [result["accuracy"] for result in models_results.values()], color='red')
-plt.xticks([result["model_file_size_MB"] for result in models_results.values()], 
-           list(models_results.keys()), rotation=45)
-for i, result in enumerate(models_results.values()):
-    plt.annotate(f"{result['accuracy']:.2f}%", 
-                 (result["model_file_size_MB"], result["accuracy"]), 
-                 textcoords="offset points", xytext=(0, 10), ha='center')
+            [result["accuracy"] for result in models_results.values()], 
+            c=[result["precision"] for result in models_results.values()], 
+            s=100, cmap='viridis', alpha=0.7)
+# Add text labels to each point
+for i, model in enumerate(models_results.keys()):
+    plt.annotate(model, (models_results[model]["model_file_size_MB"], models_results[model]["accuracy"]), 
+                 textcoords="offset points", xytext=(0, 10), ha='center', fontsize=8)
+plt.colorbar(label='Precision')
 plt.xlabel('Model Size (MB)')
 plt.ylabel('Accuracy (%)')
 plt.title('Model Size vs Accuracy')
-plt.grid()
 plt.tight_layout()
 plt.savefig("model_size_vs_accuracy.png")
-    
+
 # Save the results to a JSON file
 with open("models_results.json", "w") as f:
     json.dump(models_results, f, indent=4)
