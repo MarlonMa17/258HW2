@@ -1,14 +1,17 @@
 {
     "yolov8x.pt": {
-        "perform_box_segmentation_runtime": 38.25270390510559
+        "perform_box_segmentation_runtime": 25.21796226501465
     },
     "yolo11n.pt": {
-        "perform_box_segmentation_runtime": 21.578047275543213
+        "perform_box_segmentation_runtime": 13.481357336044312
     },
-    "shi-labs/oneformer_coco_swin_large": {
-        "perform_box_segmentation_runtime": 45.15096187591553
+    "IDEA-Research/grounding-dino-base": {
+        "perform_box_segmentation_runtime": 36.74191427230835
     },
-    "facebook/mask2former-swin-large-coco-panoptic": {
-        "perform_box_segmentation_runtime": 38.34142351150513
+    "yolov8x.engine": {
+        "perform_box_segmentation_runtime": 18.77293372154236
+    },
+    "yolo11n.engine": {
+        "perform_box_segmentation_runtime": 13.439018726348877
     }
 }
