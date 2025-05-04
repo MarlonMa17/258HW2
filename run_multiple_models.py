@@ -1,11 +1,7 @@
 import time, os
 import json
 from extractframefromvideo import extract_key_frames, generate_label_studio_predictions
-
-from ultralytics import YOLO
-from transformers import AutoModelForObjectDetection, AutoProcessor
-from transformers.onnx import export
-from pathlib import Path
+from add_labels_to_frames import label_Images
 
 # Define the video path and model options
 video_path = "videoplayback.mp4"
@@ -54,14 +50,14 @@ for model in models:
     # Create the output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     
-    output_dir += "/label_studio_predictions.json"
+    output_file_path = output_dir + "/label_studio_predictions.json"
     
     # Measure runtime for extractframefromvideo.py
     start_time = time.time()
     
     generate_label_studio_predictions(
         frames_dir=frames_dir, 
-        output_file=output_dir, #"output/label_studio_predictions.json",
+        output_file=output_file_path, #"output/label_studio_predictions.json",
         model_name=model, #"yolov8n.pt",
         text_prompt=text_prompt,
         confidence_threshold=0.3,
@@ -72,6 +68,12 @@ for model in models:
     runtimes[model] = {
         "perform_box_segmentation_runtime": end_time - start_time
     }
+    
+    label_Images(
+        json_path=output_file_path, 
+        frames_dir=frames_dir.replace('/', '\\'), 
+        output_dir=output_dir + "/labeled_frames"
+    )
 
 # Save runtimes to a JSON file
 with open("runtimes.json", "w") as f:

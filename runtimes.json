@@ -1,17 +1,1 @@
-{
-    "yolov8x.pt": {
-        "perform_box_segmentation_runtime": 25.21796226501465
-    },
-    "yolo11n.pt": {
-        "perform_box_segmentation_runtime": 13.481357336044312
-    },
-    "IDEA-Research/grounding-dino-base": {
-        "perform_box_segmentation_runtime": 36.74191427230835
-    },
-    "yolov8x.engine": {
-        "perform_box_segmentation_runtime": 18.77293372154236
-    },
-    "yolo11n.engine": {
-        "perform_box_segmentation_runtime": 13.439018726348877
-    }
-}
+{}
