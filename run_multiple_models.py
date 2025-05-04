@@ -37,7 +37,7 @@ for model in models:
 for model in optimized_Model:
     models.append(model)
 
-text_prompt="person, car, bicycle, motorcycle, truck, helicopter, plane, snowboard, skateboard",
+text_prompt="person, car, bicycle, motorcycle, truck, helicopter, plane, snowboard, skateboard"
 
 # Define a dictionary to store runtimes
 runtimes = {}
