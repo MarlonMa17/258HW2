@@ -20,4 +20,4 @@ So I decided to choose yolov8x and yolo11n to apply acceleration optimization. S
 
 In conlcusion, From the quantized results we can see that the accuracy of both models has decreased, but yolov8x quantized accuracy is still higher than yolo11n unquantized results. Since we observed an increase in the size of yolo11n's model after quantization, we thought that perhaps the model itself had been quantized. So the re-quantization resulted in an increase in the model size. But our quantization is very successful on yolov8x. Even after quantization yolov8x still outperforms the other models we tested. Finally, we also plotted the results of model volume vs. accuracy in a point chart. It can be seen that in the same yolo model, the accuracy decreases as the volume decreases.
 
-![Model size vs accuracy](FinalResult\model_size_vs_accuracy.png)
+![Model size vs accuracy](FinalResult/model_size_vs_accuracy.png)
