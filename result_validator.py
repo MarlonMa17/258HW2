@@ -130,7 +130,7 @@ plt.legend()
 plt.tight_layout()
 plt.savefig("model_runtime.png")
 
-# Draw mode size vs accuracy point chart with point label in different color
+# Draw model size vs accuracy point chart with point label in different color
 plt.figure(figsize=(10, 5))
 plt.scatter([result["model_file_size_MB"] for result in models_results.values()], 
             [result["accuracy"] for result in models_results.values()], 
