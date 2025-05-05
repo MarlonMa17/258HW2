@@ -6,7 +6,7 @@
 
 ### Overview
 
-In this assignment, I first test three different models, which is yuolo11n,yolov8x, IDEA-Research/grounding-dino-base. As the first test result, we can see that model yolov8x has best result of Accuracy and precision. Yolo11n has best runing time. Below are the results of the first run.
+In this assignment, I first test three different models, which is yolo11n,yolov8x, IDEA-Research/grounding-dino-base. As the first test result, we can see that model yolov8x has best result of Accuracy and precision. Yolo11n has best runing time. Below are the results of the first run.
 
 ![Model Accracy and Precision](FirstResult/model_accuracy_precision.png)
 
